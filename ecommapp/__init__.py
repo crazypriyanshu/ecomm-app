@@ -1,0 +1,2 @@
+class ListCreateProductAPIView:
+    pass
