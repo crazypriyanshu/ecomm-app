@@ -8,7 +8,11 @@ from ecommapp.serializers.product_serializer import ProductSerializer
 
 class ListCreateProductAPIView(APIView):
     def get(self, request) -> Response:
-        products = Product.objects.all()
+        # can use many filter options : .filter(firstname='Emil').values() or filter(lastname='Refsnes', id=2).values()
+        # OR options Member.objects.filter(firstname='Emil').values() | Member.objects.filter(firstname='Tobias').values()
+        # .filter(firstname__startswith='L'); more : www.w3schools.com/django/django_queryset_filter.php
+        # products = Product.objects.all().filter(price__gte=50.00)
+        products = Product.objects.raw('SELECT * FROM ecommapp_product')
         decoded_data = ProductSerializer(products, many=True)
         return Response(decoded_data.data, status=200)
 
