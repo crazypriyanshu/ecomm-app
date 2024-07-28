@@ -2,8 +2,9 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from ecommapp.models import Product
-from ecommapp.serializers.product_serializer import ProductSerializer
+from ecommapp.models import Product, DairyProduct
+from ecommapp.serializers.product_serializer import ProductSerializer, DairyProductSerializer
+from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
 
 
 class ListCreateProductAPIView(APIView):
@@ -23,3 +24,14 @@ class ListCreateProductAPIView(APIView):
             return Response(decoded_data.errors, status=400)
         decoded_data.save()
         return Response(decoded_data.data, status=201)
+
+
+
+class DairyListCreateAPIView(ListCreateAPIView):
+    queryset = DairyProduct.objects.all()
+    serializer_class = DairyProductSerializer
+
+class DairyRetrieveUpdateDestroyProductAPIView(RetrieveUpdateDestroyAPIView):
+    queryset = DairyProduct.objects.all()
+    serializer_class = DairyProductSerializer
+
